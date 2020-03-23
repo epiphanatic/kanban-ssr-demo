@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "bounti-dev-34f18": {
+      "hosting": {
+        "kanban-ssr-demo-ang8": [
+          "bounti-dev-34f18"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "bounti-dev-34f18"
+  }
+}

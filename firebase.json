@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "dist/browser",
+    "site": "kanban-ssr-demo",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "nest-angular-ssr",
+          "region": "us-central1"
+        }
+      }
+    ]
+  }
+}

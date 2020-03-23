@@ -1,0 +1,36 @@
+<h1>Detail Page</h1>
+
+
+<mat-card>
+  <p>This content is server side rendered with Angular Universal and app is deployed to Google Cloud Run.</p>
+
+  Paste this URL into the card validator to test meta tags:
+  <p>https://kanban-ssr-demo.firebaseapp.com/customers/{{customerId}}</p>
+
+  <a href="https://cards-dev.twitter.com/validator"
+     target="blank"
+     mat-stroked-button
+     color="accent">Twitter Card Validator</a>
+  &nbsp;&nbsp;
+  <button mat-raised-button
+          routerLink="/customers">BACK</button>
+</mat-card>
+
+
+
+<mat-card *ngIf="customer">
+  <mat-card-header>
+    <mat-card-title>{{ customer.name }}</mat-card-title>
+    <mat-card-subtitle>Customer Details</mat-card-subtitle>
+  </mat-card-header>
+  <div id="photo-div">
+    <img mat-card-image
+         [src]="customer.image" />
+  </div>
+
+  <mat-card-content>
+    <p>
+      {{ customer.bio }}
+    </p>
+  </mat-card-content>
+</mat-card>

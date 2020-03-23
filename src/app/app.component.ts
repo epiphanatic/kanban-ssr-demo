@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, Subscription } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { isPlatformBrowser } from '@angular/common';
+import { PreviousRouteService } from './services/previous-route.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +12,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'kanban-ssr-demo-ang8';
+  title = 'Portobello';
+  loggedIn: boolean;
+  user: firebase.User;
+  userSub: Subscription;
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])
+    .pipe(
+      map(result => result.matches),
+      // because subscribing multiple times in template so want to make sure
+      //  everything is listening to the same value at the same time
+      shareReplay()
+    );
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public afAuth: AngularFireAuth,
+    // go ahead and initiate the previous route service by instantiating service here
+    private previousRouteService: PreviousRouteService
+  ) {
+    if (isPlatformBrowser) {
+      this.userSub = this.afAuth.authState.subscribe((user: firebase.User) => {
+        this.loggedIn = !!user;
+        this.user = user;
+      });
+    }
+  }
+  // constructor(private breakpointObserver: BreakpointObserver) { }
 }

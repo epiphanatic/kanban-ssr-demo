@@ -1,0 +1,31 @@
+#photo-div {
+    width: 100%;
+}
+
+:host {
+    text-align: center;
+    padding: 24px;
+}
+mat-card {
+    max-width: 450px;
+    background-color:#212121; 
+    margin: 0 auto 10px;
+}
+
+// center header content
+mat-card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: .5em;
+}
+
+// resize height while keeping aspect ratio
+img {
+    display: block;
+    max-height:295px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    padding-bottom: .5em;
+}
