@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { isPlatformBrowser } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PreviousRouteService } from '../../services/previous-route.service';
@@ -16,7 +15,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   public loggedIn: boolean;
   public user: firebase.User;
   private userSub: Subscription;
-  public isBrowser = isPlatformBrowser;
   public isLoggingIn = false;
 
   constructor(
@@ -24,18 +22,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     public router: Router,
     private previousRouteService: PreviousRouteService,
   ) {
-    if (isPlatformBrowser) {
-      this.userSub = this.afAuth.authState.subscribe((user: firebase.User) => {
-        this.loggedIn = !!user;
-        this.user = user;
-        const previousRoute = this.previousRouteService.getPreviousUrl();
-        if (previousRoute && this.loggedIn) {
-          this.router.navigate([previousRoute]).then(() => {
-            this.previousRouteService.deletePreviousUrlKey();
-          });
-        }
-      });
-    }
+
+    this.userSub = this.afAuth.authState.subscribe((user: firebase.User) => {
+      this.isLoggingIn = false;
+      this.loggedIn = !!user;
+      this.user = user;
+      const previousRoute = this.previousRouteService.getPreviousUrl();
+      if (previousRoute && this.loggedIn) {
+        this.router.navigate([previousRoute]).then(() => {
+          this.previousRouteService.deletePreviousUrlKey();
+        });
+      }
+    });
+
 
   }
 
@@ -49,7 +48,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   googleLogin() {
     this.isLoggingIn = true;
-    this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    // this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
 }

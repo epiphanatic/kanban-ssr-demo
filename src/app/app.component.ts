@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { isPlatformBrowser } from '@angular/common';
 import { PreviousRouteService } from './services/previous-route.service';
+import { SeoService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ export class AppComponent {
     private breakpointObserver: BreakpointObserver,
     public afAuth: AngularFireAuth,
     // go ahead and initiate the previous route service by instantiating service here
-    private previousRouteService: PreviousRouteService
+    private previousRouteService: PreviousRouteService,
+    public seo: SeoService
   ) {
     if (isPlatformBrowser) {
       this.userSub = this.afAuth.authState.subscribe((user: firebase.User) => {
